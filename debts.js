@@ -16,30 +16,32 @@ for (var i = 0; i < namesLength; i++){
 
 //who - kto kupil, whom - komu kupil (imie albo all), howMuch - ile wydal, opcjonalnie: co kupil
 function increaseDebts(ktoKupil, komuKupil, howMuch, what = ""){
-    let whoBought = names.indexOf(ktoKupil);
-    //jak ktos kupil jednej osobie i jako kupujacego wpisano poprawna osobe
-    if (komuKupil !== 'all' && whoBought !== -1) {
-        var forWhom = names.indexOf(komuKupil);
-        if(forWhom !== -1){
-            state.debts[whoBought][forWhom] += howMuch;
-            //jesli podano konkretny artykul dopisujemy do listy kupionych artykulow
-            if(what!==""){
-                state.articles[whoBought][forWhom].push({article: what, price: howMuch})
+    if (typeof ktoKupil === 'string' && typeof komuKupil === 'string' && typeof what === 'string' && typeof howMuch === 'number'){
+        let whoBought = names.indexOf(ktoKupil);
+        //jak ktos kupil jednej osobie i jako kupujacego wpisano poprawna osobe
+        if (komuKupil !== 'all' && whoBought !== -1) {
+            var forWhom = names.indexOf(komuKupil);
+            if(forWhom !== -1){
+                state.debts[whoBought][forWhom] += howMuch;
+                //jesli podano konkretny artykul dopisujemy do listy kupionych artykulow
+                if(what!==""){
+                    state.articles[whoBought][forWhom].push({article: what, price: howMuch})
+                }
             }
-        }
-    //jak ktos kupil wszystkim    
-    } else if (komuKupil === 'all') {
-        for(var i = 0; i < namesLength; i++){
-            state.debts[whoBought][i] += howMuch/namesLength;
-            if(what!==""){
-                state.articles[whoBought][i].push({article: what, price: howMuch/namesLength})
-        }
+        //jak ktos kupil wszystkim    
+        } else if (komuKupil === 'all') {
+            for(var i = 0; i < namesLength; i++){
+                state.debts[whoBought][i] += howMuch/namesLength;
+                if(what!==""){
+                    state.articles[whoBought][i].push({article: what, price: howMuch/namesLength})
+            }
+            }
+        } else {
+        //kupil sobie    
         }
     } else {
-    //kupil sobie    
+        throw Error('zle typy inputu');
     }
-    
-    
 }
 
 //who - kto kupil, whom - komu kupil (imie albo all), howMuch - ile wydal, opcjonalnie: co kupil
