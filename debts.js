@@ -14,8 +14,6 @@ for (var i = 0; i < namesLength; i++){
     }
 }
 
-console.log(state.articles)
-
 //who - kto kupil, whom - komu kupil (imie albo all), howMuch - ile wydal, opcjonalnie: co kupil
 function increaseDebts(ktoKupil, komuKupil, howMuch, what = ""){
     let whoBought = names.indexOf(ktoKupil);
@@ -43,12 +41,15 @@ function increaseDebts(ktoKupil, komuKupil, howMuch, what = ""){
 }
 
 //who - kto kupil, whom - komu kupil (imie albo all), howMuch - ile wydal, opcjonalnie: co kupil
+//wypelnienie tablicy jakimis itemami
 increaseDebts('Hjena', 'all', 90, 'jedzenie');
 increaseDebts('Hjena', 'Habcio', 15, 'szlugi');
 increaseDebts('Konrad', 'Basia', 10);
 increaseDebts('Habcio', 'all', 70, 'benzyna');
 increaseDebts('Hjena', 'all', 120, 'benzyna');
-
+//wyswietlenie danych w postaci tablicy
+//os x - kto wisi
+//os y - komu wisi
 function showTableReport(){
     console.log('Kto wisi:');
     console.log(names);
@@ -57,6 +58,7 @@ function showTableReport(){
     }
 }
 
+//raport dla jednej osoby - jak stoi ze wszystkimi (komu wisi, od kogo odbiera hajs)
 function showReport(name){
     let reportedPerson = names.indexOf(name);
     //kto mi wisi
@@ -98,13 +100,12 @@ function showDetailedReport(buyer, whoGotStuff = ''){
     }
     
 }
-//raport dla wszystkich
+//zwykly raport dla wszystkich (kto komu wisi, od kogo odbiera)
 for (let name of names){
     showReport(name);
 }
 console.log('//////////////////////////////////////////')
 showTableReport();
-
 console.log('//////////////////////////////////////////')
 console.log(showDetailedReport('Hjena', 'Habcio'));
 console.log('//////////////////////////////////////////')
