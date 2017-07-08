@@ -16,6 +16,7 @@ for (var i = 0; i < namesLength; i++){
 
 console.log(state.articles)
 
+//who - kto kupil, whom - komu kupil (imie albo all), howMuch - ile wydal, opcjonalnie: co kupil
 function increaseDebts(ktoKupil, komuKupil, howMuch, what = ""){
     let whoBought = names.indexOf(ktoKupil);
     //jak ktos kupil jednej osobie
@@ -41,7 +42,7 @@ function increaseDebts(ktoKupil, komuKupil, howMuch, what = ""){
     
 }
 
-//who - kto kupil, whom - komu kupil (imie albo all), howMuch - ile wydal 
+//who - kto kupil, whom - komu kupil (imie albo all), howMuch - ile wydal, opcjonalnie: co kupil
 increaseDebts('Hjena', 'all', 90, 'jedzenie');
 increaseDebts('Hjena', 'Habcio', 15, 'szlugi');
 increaseDebts('Konrad', 'Basia', 10);
