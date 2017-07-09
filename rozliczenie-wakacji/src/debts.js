@@ -1,31 +1,4 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import NameInputs from './NameInputs';
-//import {increaseDebt, showReport, showTableReport, showDetailedReport} from './debts'
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      numberOfPeople: 0,
-      names: [],
-      debts: [],
-      articles: []
-    };
-}
-
-  submitParticipant = (e) => {
-    //zablokowanie przeladowania strony
-    e.preventDefault();
-    this.setState({
-      names: [...this.state.names, this.refs.name.value]
-    });
-    //wyczyszczenie pola
-    this.refs.form.reset();
-  }
-
-  populateArrays = () => {
+export function populateArrays(){
     for (var i = 0; i < this.state.names.length; i++){
         this.state.debts.push([]);
         this.state.articles.push([]);
@@ -36,19 +9,8 @@ class App extends Component {
     }
 }
 
-  submitPurchase = (e) => {
-    e.preventDefault();
-    let kto = this.refs.kto.value,
-        komu = this.refs.komu.value,
-        ile = Number(this.refs.ile.value),
-        co = this.refs.co.value;
-    console.log(kto, komu, co, ile);
-    this.increaseDebt(kto, komu, ile, co);    
-    this.refs.increaseDebtForm.reset();
-    this.showReport('on');
-  }
-
-  increaseDebt = (ktoKupil, komuKupil, howMuch, what = "") => {
+//who - kto kupil, whom - komu kupil (imie albo all), howMuch - ile wydal, opcjonalnie: co kupil
+export const increaseDebt = (ktoKupil, komuKupil, howMuch, what = "") => {
     if (typeof ktoKupil === 'string' && typeof komuKupil === 'string' && typeof what === 'string' && typeof howMuch === 'number'){
         let whoBought = this.state.names.indexOf(ktoKupil);
         //jak ktos kupil jednej osobie i jako kupujacego wpisano poprawna osobe
@@ -77,7 +39,19 @@ class App extends Component {
     }
 }
 
-showReport = (name) => {
+//wyswietlenie danych w postaci tablicy
+//os x - kto wisi
+//os y - komu wisi
+export function showTableReport(){
+    console.log('Kto wisi:');
+    console.log(this.state.names);
+    for(var i = 0; i < this.state.names.length; i++){
+        console.log(this.state.names[i], this.state.debts[i])
+    }
+}
+
+//raport dla jednej osoby - jak stoi ze wszystkimi (komu wisi, od kogo odbiera hajs)
+export function showReport(name){
     let reportedPerson = this.state.names.indexOf(name);
     //kto mi wisi
     for(var i = 0; i < this.state.names.length; i++){
@@ -93,7 +67,8 @@ showReport = (name) => {
     }
 }
 
-showDetailedReport = (buyer, whoGotStuff = '') => {
+//kto kupil (name) komu co
+export function showDetailedReport(buyer, whoGotStuff = ''){
     console.log('zakupy zrobione przez ', buyer);
     let reportedPerson = this.state.names.indexOf(buyer);
     if (whoGotStuff === ''){
@@ -117,46 +92,8 @@ showDetailedReport = (buyer, whoGotStuff = '') => {
     }
     
 }
+//zwykly raport dla wszystkich (kto komu wisi, od kogo odbiera)
+//for (let name of this.state.names){
+//    showReport(name);
+//}
 
-
-
-
-  render() {
-    return (
-      <div className="App">
-        <p>Podaj ilość uczestników: </p>
-        <form onSubmit={this.submitParticipant} ref="form">
-          <input type="text" ref="name" placeholder="Wprowadź nazwę uczestnika" />
-          <button type="submit">Zatwierdz</button>
-        </form> 
-        
-        <button onClick={this.populateArrays.bind(this)}>Skonczyłem dodawać</button>
-
-        <p>Uczestnicy:</p>
-        <ul>
-          {this.state.names.map((name, i)=><li key={i}>{name}</li>)} 
-        </ul>
-        
-        <form ref="increaseDebtForm" onSubmit={this.submitPurchase.bind(this)}>
-          <p>Kto kupił?</p>
-          <select ref="kto">
-            {this.state.names.map((name, i) => <option key={i} value={name}>{name}</option>)}
-          </select>
-          <p>Komu kupił?</p>
-          <select ref="komu">
-            {this.state.names.map((name, i) => <option key={i} value={name}>{name}</option>)}
-          </select>
-          <p>Za ile?</p>
-          <input type="number" ref="ile"/>
-          <p>Co kupił?</p>
-          <input type="text" ref="co" placeholder="Nazwa produktu..." />
-          <button type="submit">Zatwierdź</button>
-        </form>
-
-        
-      </div>  
-    );
-  }
-}
-
-export default App;
